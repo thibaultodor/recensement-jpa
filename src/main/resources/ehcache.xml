@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://www.ehcache.org/v3"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.ehcache.org/v3 https://www.ehcache.org/schema/ehcache-core.xsd">
+
+    <!-- Garde les données au maximum 30 minutes, avec 1000 entrées par cache. -->
+    <cache-template name="recensement">
+        <expiry>
+            <ttl unit="minutes">30</ttl>
+        </expiry>
+        <heap unit="entries">1000</heap>
+    </cache-template>
+
+    <!-- Les régions et départements sont peu nombreux et souvent réutilisés. -->
+    <cache alias="fr.diginamic.recensement.entites.Region" uses-template="recensement"/>
+    <cache alias="fr.diginamic.recensement.entites.Departement" uses-template="recensement"/>
+</config>

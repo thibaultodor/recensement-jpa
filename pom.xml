@@ -30,6 +30,35 @@
             <version>${hibernate.version}</version>
         </dependency>
 
+        <!-- Relie Hibernate au fournisseur de cache. -->
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-jcache</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <!-- Ehcache conserve les données du cache L2 en mémoire. -->
+        <dependency>
+            <groupId>org.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>3.12.0</version>
+            <classifier>jakarta</classifier>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.glassfish.jaxb</groupId>
+                    <artifactId>jaxb-runtime</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Lit le XML d'Ehcache avec la version JAXB utilisée par Hibernate. -->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>4.0.7</version>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- Pilote MariaDB. -->
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>

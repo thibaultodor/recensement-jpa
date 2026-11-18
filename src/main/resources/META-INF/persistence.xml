@@ -22,6 +22,16 @@
             <!-- Met à jour les tables sans les recréer. -->
             <property name="hibernate.hbm2ddl.auto" value="update"/>
 
+            <!-- Active le cache L2 pour les entités annotées @Cacheable. -->
+            <property name="hibernate.cache.use_second_level_cache" value="true"/>
+            <property name="jakarta.persistence.sharedCache.mode" value="ENABLE_SELECTIVE"/>
+            <property name="hibernate.cache.region.factory_class" value="jcache"/>
+            <property name="hibernate.javax.cache.provider" value="org.ehcache.jsr107.EhcacheCachingProvider"/>
+            <property name="hibernate.javax.cache.uri" value="ehcache.xml"/>
+
+            <!-- Met aussi le cache à jour lors des modifications faites avec JPA. -->
+            <property name="hibernate.cache.default_cache_concurrency_strategy" value="read-write"/>
+
             <!-- Affiche les requêtes SQL. -->
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>

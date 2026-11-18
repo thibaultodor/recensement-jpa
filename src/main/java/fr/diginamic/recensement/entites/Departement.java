@@ -1,5 +1,6 @@
 package fr.diginamic.recensement.entites;
 
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +16,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "DEPARTEMENT")
+// Partage les données du département entre les EntityManager grâce au cache L2.
+@Cacheable
 public class Departement {
 
     @Id
