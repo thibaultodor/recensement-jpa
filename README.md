@@ -22,9 +22,8 @@ Dans IntelliJ, lancer les méthodes `main` dans cet ordre :
 1. [IntegrationRecensement](src/main/java/fr/diginamic/recensement/IntegrationRecensement.java) : importer les données.
 2. [RechercheRecensement](src/main/java/fr/diginamic/recensement/RechercheRecensement.java) : afficher les classements, filtres et populations cumulées.
 
-Les codes de département et de région ainsi que les seuils de population se
-modifient au début de `RechercheRecensement`. L'affichage est limité aux dix
-premières villes de chaque liste.
+Les paramètres de recherche (codes de département et de région ainsi que les seuils de population) se modifient au début de `RechercheRecensement`.
+L'affichage est limité aux dix premières villes de chaque liste.
 
 ## Données fournies
 
@@ -58,12 +57,6 @@ par un `rollback`.
 
 - **Noms des départements** : ajout d'un champ `nom`, renseigné grâce à
   `Departements.csv` dès la lecture des communes.
-- **Lyon** : le fichier contient neuf arrondissements. Ils sont regroupés en une
-  seule ville en additionnant leurs populations, soit 523 164 habitants dans ce
-  jeu de données. Les anciennes entrées sont retirées à l'import pour éviter un
-  double comptage. Le CSV d'origine est conservé.
-- **Cache L2** : seules les régions et les départements sont mis en cache avec
-  Ehcache. Ces données sont peu nombreuses et partagées par beaucoup de villes,
-  ce qui limite la mémoire utilisée. Les entrées sont conservées au maximum
-  30 minutes et partagées entre les `EntityManager` d'une même
+- **Lyon** : le fichier contient neuf arrondissements. Ils sont regroupés en une seule ville en additionnant leurs populations, soit 523 164 habitants dans ce jeu de données. Les anciennes entrées sont retirées à l'import pour éviter un double comptage. Le CSV d'origine est conservé.
+- **Cache L2** : seules les régions et les départements sont mis en cache avec Ehcache. Ces données sont peu nombreuses et partagées par beaucoup de villes, ce qui limite la mémoire utilisée. Les entrées sont conservées au maximum 30 minutes et partagées entre les `EntityManager` d'une même
   `EntityManagerFactory`. Le cache est vidé à sa fermeture.
