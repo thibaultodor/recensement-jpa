@@ -38,4 +38,16 @@ public class DepartementDao {
     public List<Departement> findAll() {
         return em.createQuery("SELECT d FROM Departement d", Departement.class).getResultList();
     }
+
+    // Additionne les populations des villes du département.
+    public Long findPopulationByCode(String code) {
+        return em.createQuery("""
+                        SELECT SUM(v.population) FROM Departement d
+                        JOIN d.villes v
+                        WHERE d.code = :code
+                        GROUP BY d.code
+                        """, Long.class)
+                .setParameter("code", code)
+                .getSingleResultOrNull();
+    }
 }

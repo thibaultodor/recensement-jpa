@@ -19,14 +19,12 @@ public class IntegrationRecensement {
         // Permet de calculer la duré e de l'import.
         long debut = System.currentTimeMillis();
 
-        // Lit les communes du fichier.
+        // Lit les communes avec le nom de leur département.
         LecteurRecensement lecteur = new LecteurRecensement();
-        List<LigneRecensement> lignes = lecteur.read(Path.of("data", "Communes.csv"));
+        List<LigneRecensement> lignes = lecteur.read(Path.of("data", "Communes.csv"), Path.of("data", "Departements.csv"));
 
         // Masque le SQL pour ne pas afficher des milliers d'insertions.
-        try (EntityManagerFactory factory = Persistence.createEntityManagerFactory(
-                "recensement-jpa", Map.of("hibernate.show_sql", "false"));
-             EntityManager em = factory.createEntityManager()) {
+        try (EntityManagerFactory factory = Persistence.createEntityManagerFactory("recensement-jpa", Map.of("hibernate.show_sql", "false")); EntityManager em = factory.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
             try {
                 transaction.begin();

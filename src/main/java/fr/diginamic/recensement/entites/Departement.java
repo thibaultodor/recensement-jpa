@@ -26,6 +26,9 @@ public class Departement {
     @Column(name = "CODE", nullable = false, unique = true, length = 3)
     private String code;
 
+    @Column(name = "NOM", length = 100)
+    private String nom;
+
     // Plusieurs départements appartiennent à une région.
     @ManyToOne
     @JoinColumn(name = "ID_REGION", nullable = false)
@@ -52,6 +55,14 @@ public class Departement {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public Region getRegion() {

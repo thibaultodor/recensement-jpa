@@ -38,4 +38,16 @@ public class RegionDao {
     public List<Region> findAll() {
         return em.createQuery("SELECT r FROM Region r", Region.class).getResultList();
     }
+
+    // Additionne les populations de toutes les villes de la région.
+    public Long findPopulationByCode(String code) {
+        return em.createQuery("""
+                        SELECT SUM(v.population) FROM Region r
+                        JOIN r.departements d JOIN d.villes v
+                        WHERE r.code = :code
+                        GROUP BY r.code
+                        """, Long.class)
+                .setParameter("code", code)
+                .getSingleResultOrNull();
+    }
 }

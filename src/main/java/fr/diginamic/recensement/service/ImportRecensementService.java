@@ -28,6 +28,15 @@ public class ImportRecensementService {
     }
 
     public int importData(List<LigneRecensement> lignes) {
+        // Ne remplace les anciens arrondissements que si Lyon est bien dans l'import.
+        boolean importLyon = false;
+        for (LigneRecensement ligne : lignes) {
+            if ("69".equals(ligne.getCodeDepartement()) && "Lyon".equals(ligne.getNomCommune())) {
+                importLyon = true;
+                break;
+            }
+        }
+
         // Charge les données existantes pour éviter les recherches à chaque ligne.
         Map<String, Region> regions = new HashMap<>();
         for (Region region : regionDao.findAll()) {
@@ -41,7 +50,13 @@ public class ImportRecensementService {
 
         Set<String> villesExistantes = new HashSet<>();
         for (Ville ville : villeDao.findAll()) {
-            villesExistantes.add(ville.getDepartement().getCode() + ";" + ville.getNom());
+            if (importLyon && "69".equals(ville.getDepartement().getCode())
+                    && ville.getNom().startsWith("Lyon ") && ville.getNom().endsWith(" Arrondissement")) {
+                // Retire les anciennes lignes pour ne pas compter Lyon deux fois.
+                villeDao.delete(ville);
+            } else {
+                villesExistantes.add(ville.getDepartement().getCode() + ";" + ville.getNom());
+            }
         }
 
         int villesAjoutees = 0;
@@ -62,6 +77,8 @@ public class ImportRecensementService {
                 departementDao.insert(departement);
                 departements.put(departement.getCode(), departement);
             }
+            // Complète aussi le nom des départements déjà présents.
+            departement.setNom(ligne.getNomDepartement());
 
             // Le département et le nom permettent de repérer une ville déjà importée.
             String cleVille = ligne.getCodeDepartement() + ";" + ligne.getNomCommune();

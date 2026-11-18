@@ -12,6 +12,7 @@
         <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hibernate.version>7.4.4.Final</hibernate.version>
+        <exec.mainClass>fr.diginamic.recensement.IntegrationRecensement</exec.mainClass>
     </properties>
 
     <dependencies>
@@ -47,13 +48,13 @@
 
     <build>
         <plugins>
-            <!-- Lance la classe d'import avec mvn compile exec:java. -->
+            <!-- Lance la classe choisie avec mvn compile exec:java. -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.7.0</version>
                 <configuration>
-                    <mainClass>fr.diginamic.recensement.IntegrationRecensement</mainClass>
+                    <mainClass>${exec.mainClass}</mainClass>
                 </configuration>
             </plugin>
             <plugin>
