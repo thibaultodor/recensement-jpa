@@ -5,6 +5,9 @@
              version="3.2">
     <persistence-unit name="recensement-jpa" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>fr.diginamic.recensement.entites.Region</class>
+        <class>fr.diginamic.recensement.entites.Departement</class>
+        <class>fr.diginamic.recensement.entites.Ville</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>
@@ -16,8 +19,8 @@
 
             <property name="hibernate.dialect" value="org.hibernate.community.dialect.MariaDBLegacyDialect"/>
 
-            <!-- Pas de création de table pour le moment. -->
-            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>
+            <!-- Met à jour les tables sans les recréer. -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
 
             <!-- Affiche les requêtes SQL. -->
             <property name="hibernate.show_sql" value="true"/>
