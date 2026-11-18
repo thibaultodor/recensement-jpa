@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 public class ConnexionJpaTest {
 
     @Test
-    void doitSeConnecterALaBaseRecensement() {
+    void testConnexionALaBaseRecensement() {
         // Charge la configuration JPA.
         try (EntityManagerFactory factory = Persistence.createEntityManagerFactory("recensement-jpa");
              EntityManager em = factory.createEntityManager()) {

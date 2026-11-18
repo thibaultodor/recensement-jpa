@@ -2,6 +2,9 @@ package fr.diginamic.recensement;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import fr.diginamic.recensement.dao.DepartementDao;
+import fr.diginamic.recensement.dao.RegionDao;
+import fr.diginamic.recensement.dao.VilleDao;
 import fr.diginamic.recensement.entites.Departement;
 import fr.diginamic.recensement.entites.Region;
 import fr.diginamic.recensement.entites.Ville;
@@ -16,9 +19,13 @@ import org.junit.jupiter.api.Test;
 public class ModeleRecensementTest {
 
     @Test
-    void doitEnregistrerUneVilleAvecSonDepartementEtSaRegion() {
+    void testEnregistrementVilleAvecDepartementEtRegion() {
         try (EntityManagerFactory factory = Persistence.createEntityManagerFactory("recensement-jpa");
              EntityManager em = factory.createEntityManager()) {
+            // Les DAO partagent le même EntityManager.
+            RegionDao regionDao = new RegionDao(em);
+            DepartementDao departementDao = new DepartementDao(em);
+            VilleDao villeDao = new VilleDao(em);
             EntityTransaction transaction = em.getTransaction();
             try {
                 transaction.begin();
@@ -33,9 +40,9 @@ public class ModeleRecensementTest {
                 departement.ajouterVille(ville);
 
                 // Enregistre les objets en base.
-                em.persist(region);
-                em.persist(departement);
-                em.persist(ville);
+                regionDao.insert(region);
+                departementDao.insert(departement);
+                villeDao.insert(ville);
 
                 // Écrit en base, puis recharge les objets.
                 em.flush();
@@ -43,7 +50,7 @@ public class ModeleRecensementTest {
                 em.clear();
 
                 // Recharge la ville depuis la base.
-                Ville villeLue = em.find(Ville.class, idVille);
+                Ville villeLue = villeDao.findById(idVille);
 
                 // Vérifie les données et les relations.
                 assertEquals("Ville de test", villeLue.getNom());
